@@ -1,67 +1,11 @@
-import React from 'react';
-import _ from 'lodash';
-import dayjs from 'dayjs';
+import React from "react";
 import { Bar } from 'react-chartjs-2';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import './../index.css';
+import dayjs from 'dayjs';
+import dayjsPluginUTC from 'dayjs-plugin-utc';
+dayjs.extend(dayjsPluginUTC);
 
-const normalize = (data) => {
-  let divider = 1000;
-  let unit = 'thousands';
-  let u = 'k';
-  if (!data || !data.length) return { data: [] };
-  if (data[0] > 10000000) {
-    divider = 1000000;
-    unit = 'milllion';
-    u = 'm';
-  }
-  if (data[0] > 10000000000) {
-    divider = 1000000000;
-    unit = 'billion';
-    u = 'b';
-  }
-  return { data: data.map(d => d/divider), unit, u, divider };
-};
-
-const attributes = [{
-  backgroundColor: 'green',
-  borderColor: 'green',
-  attr: 'cc',
-  label: 'Cash and Cash Equivalent'
-}, {
-  backgroundColor: '#5DADE2',
-  borderColor: '#5DADE2',
-  attr1: 'ca',
-  attr2: 'cc',
-  label: 'Current Asset Minus Cash and Cash Equivalent'
-}, {
-  backgroundColor: 'orange',
-  borderColor: 'orange',
-  attr: 'ld',
-  label: 'Long Term Debt'
-}, {
-  backgroundColor: 'red',
-  borderColor: 'red',
-  attr: 'std',
-  label: 'Short Term Debt'
-}].reverse();
-
-const genDataSetAndAttributes = (attribute, data) => {
-  return {
-    fill: false,
-    lineTension: 0,
-    borderWidth: 2,
-    pointRadius: 2,
-    pointHoverRadius: 5,
-    data: data.map(d => {
-      return attribute.attr ? _.get(d, attribute.attr) : _.get(d, attribute.attr1) - _.get(d, attribute.attr2);
-    }),
-    all: data,
-    ...attribute
-  };
-};
-
-export class AnalystTrends extends React.Component {
+export class NumberOfEmployees extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -78,13 +22,11 @@ export class AnalystTrends extends React.Component {
   }
 
   render() {
-    const { profile, prop = 'balance_sheet', imgProp = 'cash_and_debt_img' } = this.props;
-    // eslint-disable-next-line
-    const initialData = _.filter(_.get(profile, `${prop}.data`, []), d => d.ta).slice(-12);
+    const { profile, imgProp = 'pct_inst_img' } = this.props;
     const { copied } = this.state;
     if (!profile) {
       return (
-        <div style={{ fontSize: 14 }}>Not available at this time... </div>
+        <div style={{ fontSize: 12 }}>Not available at this time... </div>
       );
     }
     if (profile[imgProp] && profile[imgProp].url) {
@@ -92,7 +34,7 @@ export class AnalystTrends extends React.Component {
       const btnText = copied ? 'Copied' : 'Copy Img';
       return (
         <div className='react-components-show-button'>
-          <img alt={`${profile.ticker} - ${profile.name} debt and cash analysis`} src={profile[imgProp].url} style={{ width: '100%' }} />
+          <img alt={`${profile.ticker} - ${profile.name} Employees and Productivity`} src={profile[imgProp].url} style={{ width: '100%' }} />
           <CopyToClipboard text={profile[imgProp].url || ''}
             onCopy={() => this.setState({ copied: true })}
           >
@@ -101,64 +43,102 @@ export class AnalystTrends extends React.Component {
         </div>
       );
     }
+
+    if (!profile || !profile.numbers || !profile.numbers.percent_institutions_ts) return null;
+    if (!profile || !profile.numbers || !profile.numbers.percent_insider_ts) return null;
+    const percent_institutions_ts = profile.numbers.percent_institutions_ts || [];
+    const percent_insider_ts = profile.numbers.percent_insider_ts || [];
+    const percent_institutions = percent_institutions_ts.map(d => d.v);
+    const percent_insider = percent_insider_ts.map(d => d.v);
     const data = {
-      labels: initialData.map(d => dayjs(d.reportDate).format('YYYYMM')),
-      datasets: attributes.map(attr => genDataSetAndAttributes(attr, initialData))
+      labels: percent_institutions_ts.map(d => dayjs.utc(d.ts).format('YYYYMM')),
+      datasets: [{
+        yAxisID: '1',
+        type: 'line',
+        fill: false,
+        backgroundColor: 'darkred',
+        borderColor: 'darkred',
+        lineTension: 0,
+        borderWidth: 1,
+        pointRadius: 2,
+        pointHoverRadius: 2,
+        data: percent_institutions,
+        label: 'Percent of Institution Owned'
+      }, {
+        yAxisID: '2',
+        type: 'line',
+        fill: false,
+        backgroundColor: 'darkgreen',
+        borderColor: 'darkgreen',
+        lineTension: 0,
+        borderWidth: 1,
+        pointRadius: 2,
+        pointHoverRadius: 2,
+        data: percent_insider,
+        label: 'Percent of Insider Owned'
+      }]
     };
-    const { divider, unit } = normalize(initialData.map(d => d.ta));
     const options = {
       legend: {
         labels: {
-          fontSize: 12,
-          boxWidth: 3,
+          fontSize: 14,
+          boxWidth: 10,
         }
       },
       scales: {
         xAxes: [{
           ticks: {
-            fontSize: 12,
+            fontSize: 12
           },
-          stacked: true,
           barPercentage: 0.4
         }],
         yAxes: [{
-          ticks: {
-            fontSize: 12,
-            min: 0,
-            callback: function(label, index, labels) {
-              return Math.floor(label / divider);
-            }
-          },
-          stacked: true
-        }]
+                type: 'linear',
+                display: true,
+                position: 'left',
+                id: '1',
+                gridLines: {
+                  display: false
+                },
+                labels: {
+                  show: true
+                },
+                ticks: {
+                  fontColor: 'darkred',
+                  fontSize: 10,
+                    callback: function(label, index, labels) {
+                      return Math.floor(label);
+                    }
+                },
+              },
+              {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                id: '2',
+                labels: {
+                  show: true
+                },
+                ticks: {
+                  fontColor: 'darkgreen',
+                  fontSize: 10,
+                  // min: 0,
+                  callback: function(label, index, labels) {
+                    return Math.floor(label);
+                  }
+                },
+              }]
       },
-      tooltips: {
-        callbacks: {
-          label: function(tooltipItem, data) {
-            const info = data.datasets[tooltipItem.datasetIndex];
-            const reportDate = info.all[tooltipItem.datasetIndex].reportDate;
-              var label = `${reportDate} ${info.label}: `;
-              label += tooltipItem.yLabel || 'n/a';
-              label += '%';
-              return label;
-          }
-        }
-      }
     };
 
     return (
-      <div>
-        <div style={{ width: '100%', padding: 5, fontSize: 14 }}>
-          <div style={{ color: 'darkred', fontWeight: 'bold' }}>{profile.ticker} - {profile.name} <span className='green'>Cash and Debt Analysis</span>
-            <span className='black' style={{ fontSize: 12, marginLeft: 5 }}>(unit: {unit})</span></div>
-        </div>
-        <div style={{ width: '100%' }}>
-          <Bar data={data} height={180} options={options} />
-        </div>
-        <div style={{ fontSize: 12, color: 'gray', padding: 5 }}>Generated by <span style={{ color: 'darkred' }}>@earningsfly</span> with <span style={{ fontSize: 16, color: 'red' }}>❤️</span></div>
+      <div style={{ width: '100%', padding: 5, fontSize: 14 }}>
+        <div style={{ color: 'darkred', fontWeight: 'bold' }}>{profile.ticker} - {profile.name} <span className='green'>Institutions / Insider Analysis</span></div>
+        <Bar data={data} height={220} options={options} />
+        <div style={{ fontSize: 12, color: 'gray' }}>Generated by <span style={{ color: 'darkred' }}>@earningsfly</span> with <span style={{ fontSize: 16, color: 'red' }}>❤️</span></div>
       </div>
     );
   }
 }
 
-export default AnalystTrends;
+export default NumberOfEmployees;

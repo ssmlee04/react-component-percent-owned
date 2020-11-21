@@ -3,19 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.AnalystTrends = void 0;
+exports["default"] = exports.NumberOfEmployees = void 0;
 
 var _react = _interopRequireDefault(require("react"));
-
-var _lodash = _interopRequireDefault(require("lodash"));
-
-var _dayjs = _interopRequireDefault(require("dayjs"));
 
 var _reactChartjs = require("react-chartjs-2");
 
 var _reactCopyToClipboard = require("react-copy-to-clipboard");
 
-require("./../index.css");
+var _dayjs = _interopRequireDefault(require("dayjs"));
+
+var _dayjsPluginUtc = _interopRequireDefault(require("dayjs-plugin-utc"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -37,95 +35,24 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+_dayjs["default"].extend(_dayjsPluginUtc["default"]);
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-var normalize = function normalize(data) {
-  var divider = 1000;
-  var unit = 'thousands';
-  var u = 'k';
-  if (!data || !data.length) return {
-    data: []
-  };
-
-  if (data[0] > 10000000) {
-    divider = 1000000;
-    unit = 'milllion';
-    u = 'm';
-  }
-
-  if (data[0] > 10000000000) {
-    divider = 1000000000;
-    unit = 'billion';
-    u = 'b';
-  }
-
-  return {
-    data: data.map(function (d) {
-      return d / divider;
-    }),
-    unit: unit,
-    u: u,
-    divider: divider
-  };
-};
-
-var attributes = [{
-  backgroundColor: 'green',
-  borderColor: 'green',
-  attr: 'cc',
-  label: 'Cash and Cash Equivalent'
-}, {
-  backgroundColor: '#5DADE2',
-  borderColor: '#5DADE2',
-  attr1: 'ca',
-  attr2: 'cc',
-  label: 'Current Asset Minus Cash and Cash Equivalent'
-}, {
-  backgroundColor: 'orange',
-  borderColor: 'orange',
-  attr: 'ld',
-  label: 'Long Term Debt'
-}, {
-  backgroundColor: 'red',
-  borderColor: 'red',
-  attr: 'std',
-  label: 'Short Term Debt'
-}].reverse();
-
-var genDataSetAndAttributes = function genDataSetAndAttributes(attribute, data) {
-  return _objectSpread({
-    fill: false,
-    lineTension: 0,
-    borderWidth: 2,
-    pointRadius: 2,
-    pointHoverRadius: 5,
-    data: data.map(function (d) {
-      return attribute.attr ? _lodash["default"].get(d, attribute.attr) : _lodash["default"].get(d, attribute.attr1) - _lodash["default"].get(d, attribute.attr2);
-    }),
-    all: data
-  }, attribute);
-};
-
-var AnalystTrends =
+var NumberOfEmployees =
 /*#__PURE__*/
 function (_React$Component) {
-  _inherits(AnalystTrends, _React$Component);
+  _inherits(NumberOfEmployees, _React$Component);
 
-  function AnalystTrends(props) {
+  function NumberOfEmployees(props) {
     var _this;
 
-    _classCallCheck(this, AnalystTrends);
+    _classCallCheck(this, NumberOfEmployees);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(AnalystTrends).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(NumberOfEmployees).call(this, props));
     _this.state = {};
     return _this;
   }
 
-  _createClass(AnalystTrends, [{
+  _createClass(NumberOfEmployees, [{
     key: "shouldComponentUpdate",
     value: function shouldComponentUpdate(nextProps, nextState) {
       var profile = this.props.profile;
@@ -141,21 +68,14 @@ function (_React$Component) {
 
       var _this$props = this.props,
           profile = _this$props.profile,
-          _this$props$prop = _this$props.prop,
-          prop = _this$props$prop === void 0 ? 'balance_sheet' : _this$props$prop,
           _this$props$imgProp = _this$props.imgProp,
-          imgProp = _this$props$imgProp === void 0 ? 'cash_and_debt_img' : _this$props$imgProp; // eslint-disable-next-line
-
-      var initialData = _lodash["default"].filter(_lodash["default"].get(profile, "".concat(prop, ".data"), []), function (d) {
-        return d.ta;
-      }).slice(-12);
-
+          imgProp = _this$props$imgProp === void 0 ? 'pct_inst_img' : _this$props$imgProp;
       var copied = this.state.copied;
 
       if (!profile) {
         return _react["default"].createElement("div", {
           style: {
-            fontSize: 14
+            fontSize: 12
           }
         }, "Not available at this time... ");
       }
@@ -166,7 +86,7 @@ function (_React$Component) {
         return _react["default"].createElement("div", {
           className: "react-components-show-button"
         }, _react["default"].createElement("img", {
-          alt: "".concat(profile.ticker, " - ").concat(profile.name, " debt and cash analysis"),
+          alt: "".concat(profile.ticker, " - ").concat(profile.name, " Employees and Productivity"),
           src: profile[imgProp].url,
           style: {
             width: '100%'
@@ -184,26 +104,51 @@ function (_React$Component) {
         }, btnText)));
       }
 
+      if (!profile || !profile.numbers || !profile.numbers.percent_institutions_ts) return null;
+      if (!profile || !profile.numbers || !profile.numbers.percent_insider_ts) return null;
+      var percent_institutions_ts = profile.numbers.percent_institutions_ts || [];
+      var percent_insider_ts = profile.numbers.percent_insider_ts || [];
+      var percent_institutions = percent_institutions_ts.map(function (d) {
+        return d.v;
+      });
+      var percent_insider = percent_insider_ts.map(function (d) {
+        return d.v;
+      });
       var data = {
-        labels: initialData.map(function (d) {
-          return (0, _dayjs["default"])(d.reportDate).format('YYYYMM');
+        labels: percent_institutions_ts.map(function (d) {
+          return _dayjs["default"].utc(d.ts).format('YYYYMM');
         }),
-        datasets: attributes.map(function (attr) {
-          return genDataSetAndAttributes(attr, initialData);
-        })
+        datasets: [{
+          yAxisID: '1',
+          type: 'line',
+          fill: false,
+          backgroundColor: 'darkred',
+          borderColor: 'darkred',
+          lineTension: 0,
+          borderWidth: 1,
+          pointRadius: 2,
+          pointHoverRadius: 2,
+          data: percent_institutions,
+          label: 'Percent of Institution Owned'
+        }, {
+          yAxisID: '2',
+          type: 'line',
+          fill: false,
+          backgroundColor: 'darkgreen',
+          borderColor: 'darkgreen',
+          lineTension: 0,
+          borderWidth: 1,
+          pointRadius: 2,
+          pointHoverRadius: 2,
+          data: percent_insider,
+          label: 'Percent of Insider Owned'
+        }]
       };
-
-      var _normalize = normalize(initialData.map(function (d) {
-        return d.ta;
-      })),
-          divider = _normalize.divider,
-          unit = _normalize.unit;
-
       var options = {
         legend: {
           labels: {
-            fontSize: 12,
-            boxWidth: 3
+            fontSize: 14,
+            boxWidth: 10
           }
         },
         scales: {
@@ -211,34 +156,46 @@ function (_React$Component) {
             ticks: {
               fontSize: 12
             },
-            stacked: true,
             barPercentage: 0.4
           }],
           yAxes: [{
-            ticks: {
-              fontSize: 12,
-              min: 0,
-              callback: function callback(label, index, labels) {
-                return Math.floor(label / divider);
-              }
+            type: 'linear',
+            display: true,
+            position: 'left',
+            id: '1',
+            gridLines: {
+              display: false
             },
-            stacked: true
-          }]
-        },
-        tooltips: {
-          callbacks: {
-            label: function label(tooltipItem, data) {
-              var info = data.datasets[tooltipItem.datasetIndex];
-              var reportDate = info.all[tooltipItem.datasetIndex].reportDate;
-              var label = "".concat(reportDate, " ").concat(info.label, ": ");
-              label += tooltipItem.yLabel || 'n/a';
-              label += '%';
-              return label;
+            labels: {
+              show: true
+            },
+            ticks: {
+              fontColor: 'darkred',
+              fontSize: 10,
+              callback: function callback(label, index, labels) {
+                return Math.floor(label);
+              }
             }
-          }
+          }, {
+            type: 'linear',
+            display: true,
+            position: 'right',
+            id: '2',
+            labels: {
+              show: true
+            },
+            ticks: {
+              fontColor: 'darkgreen',
+              fontSize: 10,
+              // min: 0,
+              callback: function callback(label, index, labels) {
+                return Math.floor(label);
+              }
+            }
+          }]
         }
       };
-      return _react["default"].createElement("div", null, _react["default"].createElement("div", {
+      return _react["default"].createElement("div", {
         style: {
           width: '100%',
           padding: 5,
@@ -251,25 +208,14 @@ function (_React$Component) {
         }
       }, profile.ticker, " - ", profile.name, " ", _react["default"].createElement("span", {
         className: "green"
-      }, "Cash and Debt Analysis"), _react["default"].createElement("span", {
-        className: "black",
-        style: {
-          fontSize: 12,
-          marginLeft: 5
-        }
-      }, "(unit: ", unit, ")"))), _react["default"].createElement("div", {
-        style: {
-          width: '100%'
-        }
-      }, _react["default"].createElement(_reactChartjs.Bar, {
+      }, "Institutions / Insider Analysis")), _react["default"].createElement(_reactChartjs.Bar, {
         data: data,
-        height: 180,
+        height: 220,
         options: options
-      })), _react["default"].createElement("div", {
+      }), _react["default"].createElement("div", {
         style: {
           fontSize: 12,
-          color: 'gray',
-          padding: 5
+          color: 'gray'
         }
       }, "Generated by ", _react["default"].createElement("span", {
         style: {
@@ -284,9 +230,9 @@ function (_React$Component) {
     }
   }]);
 
-  return AnalystTrends;
+  return NumberOfEmployees;
 }(_react["default"].Component);
 
-exports.AnalystTrends = AnalystTrends;
-var _default = AnalystTrends;
+exports.NumberOfEmployees = NumberOfEmployees;
+var _default = NumberOfEmployees;
 exports["default"] = _default;
