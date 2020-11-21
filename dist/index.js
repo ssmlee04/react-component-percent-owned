@@ -210,7 +210,7 @@ function (_React$Component) {
         className: "green"
       }, "Institutions / Insider Analysis")), _react["default"].createElement(_reactChartjs.Bar, {
         data: data,
-        height: 220,
+        height: 170,
         options: options
       }), _react["default"].createElement("div", {
         style: {
