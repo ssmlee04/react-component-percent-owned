@@ -124,7 +124,7 @@ function (_React$Component) {
           fill: false,
           backgroundColor: 'darkred',
           borderColor: 'darkred',
-          lineTension: 0,
+          lineTension: 0.5,
           borderWidth: 1,
           pointRadius: 2,
           pointHoverRadius: 2,
@@ -136,7 +136,7 @@ function (_React$Component) {
           fill: false,
           backgroundColor: 'darkgreen',
           borderColor: 'darkgreen',
-          lineTension: 0,
+          lineTension: 0.5,
           borderWidth: 1,
           pointRadius: 2,
           pointHoverRadius: 2,
@@ -226,7 +226,7 @@ function (_React$Component) {
           fontSize: 8,
           color: 'red'
         }
-      }, "\u2764\uFE0F")));
+      }, "\u2764\uD83D\uDE80")));
     }
   }]);
 
