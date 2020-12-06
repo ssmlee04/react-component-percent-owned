@@ -226,7 +226,7 @@ function (_React$Component) {
           fontSize: 8,
           color: 'red'
         }
-      }, "\u2764\uD83D\uDE80")));
+      }, "\uD83D\uDE80")));
     }
   }]);
 
