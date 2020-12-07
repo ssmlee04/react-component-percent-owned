@@ -136,8 +136,8 @@ function (_React$Component) {
           type: 'line',
           fill: false,
           pointBackgroundColor: 'white',
-          backgroundColor: 'darkgreen',
-          borderColor: 'darkgreen',
+          backgroundColor: 'green',
+          borderColor: 'green',
           lineTension: 0.3,
           borderWidth: 1,
           pointRadius: 2,
@@ -172,7 +172,7 @@ function (_React$Component) {
               show: true
             },
             ticks: {
-              fontColor: 'darkred',
+              fontColor: 'crimson',
               fontSize: 8,
               callback: function callback(label, index, labels) {
                 return Math.floor(label);
@@ -187,7 +187,7 @@ function (_React$Component) {
               show: true
             },
             ticks: {
-              fontColor: 'darkgreen',
+              fontColor: 'green',
               fontSize: 8,
               // min: 0,
               callback: function callback(label, index, labels) {
@@ -225,7 +225,7 @@ function (_React$Component) {
         }
       }, "@earningsfly"), " with ", _react["default"].createElement("span", {
         style: {
-          fontSize: 8,
+          fontSize: 16,
           color: 'red'
         }
       }, "\uD83D\uDE80")));
