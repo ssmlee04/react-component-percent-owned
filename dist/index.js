@@ -108,34 +108,39 @@ function (_React$Component) {
         return d.v;
       });
       var fontColor = theme === 'light' ? '#222222' : '#dddddd';
-      var dataColor = theme === 'light' ? 'rgba(205, 92, 92, 0.3)' : 'rgba(128, 30, 0, 0.3)';
-      var dataColor2 = theme === 'light' ? 'rgba(46, 134, 193, 0.1)' : 'rgba(0, 0, 128, 0.1)';
-      var data = {
+      var dataColor = theme === 'light' ? 'rgba(255, 165, 0, 0.5)' : 'rgba(255, 165, 0, 0.5)';
+      var dataColor2 = theme === 'light' ? 'rgba(46, 134, 193, 0.5)' : 'rgba(46, 134, 193, 0.5)';
+      var data1 = {
         // labels: percent_institutions_ts.map(d => dayjs.utc(d.ts).format('YYYYMM')),
         labels: percent_institutions_ts.map(function (d) {
           return (0, _dayjs["default"])(d.ts).format('YYYYMM');
         }),
         datasets: [{
-          yAxisID: '1',
           type: 'line',
           fill: true,
           pointBackgroundColor: 'white',
           backgroundColor: dataColor,
-          borderColor: 'rgba(205, 92, 92, 0.7)',
-          lineTension: 0.3,
+          borderColor: 'rgba(255, 165, 0, 1)',
+          lineTension: 0.5,
           borderWidth: 1.5,
           pointRadius: 3,
           pointHoverRadius: 5,
           data: percent_institutions,
           label: 'Percent of Institution Owned'
-        }, {
-          yAxisID: '2',
+        }]
+      };
+      var data2 = {
+        // labels: percent_institutions_ts.map(d => dayjs.utc(d.ts).format('YYYYMM')),
+        labels: percent_institutions_ts.map(function (d) {
+          return (0, _dayjs["default"])(d.ts).format('YYYYMM');
+        }),
+        datasets: [{
           type: 'line',
           fill: true,
           pointBackgroundColor: 'white',
           backgroundColor: dataColor2,
-          borderColor: 'rgba(46, 134, 193, 0.7)',
-          lineTension: 0.3,
+          borderColor: 'rgba(46, 134, 193, 1)',
+          lineTension: 0.5,
           borderWidth: 1.5,
           pointRadius: 3,
           pointHoverRadius: 5,
@@ -143,7 +148,7 @@ function (_React$Component) {
           label: 'Percent of Insider Owned'
         }]
       };
-      var options = {
+      var options1 = {
         legend: {
           labels: {
             fontSize: 12,
@@ -164,29 +169,41 @@ function (_React$Component) {
             display: true,
             position: 'left',
             id: '1',
-            gridLines: {
-              display: false
-            },
             labels: {
               show: true
             },
             ticks: {
-              fontColor: 'rgba(205, 92, 92, 1)',
               fontSize: 12,
               callback: function callback(label, index, labels) {
                 return Math.floor(label);
               }
             }
-          }, {
+          }]
+        }
+      };
+      var options2 = {
+        legend: {
+          labels: {
+            fontSize: 12,
+            fontColor: fontColor,
+            boxWidth: 10
+          }
+        },
+        scales: {
+          xAxes: [{
+            ticks: {
+              fontSize: 12,
+              fontColor: fontColor
+            },
+            barPercentage: 0.4
+          }],
+          yAxes: [{
             type: 'linear',
             display: true,
-            position: 'right',
-            id: '2',
             labels: {
               show: true
             },
             ticks: {
-              fontColor: 'rgba(46, 134, 193, 1)',
               fontSize: 12,
               // min: 0,
               callback: function callback(label, index, labels) {
@@ -210,9 +227,13 @@ function (_React$Component) {
       }, profile.ticker, " - ", profile.name, "\xA0", _react["default"].createElement("span", {
         className: "theme-green-".concat(theme)
       }, "Ownership Analysis")), _react["default"].createElement(_reactChartjs.Bar, {
-        data: data,
-        height: 180,
-        options: options
+        data: data1,
+        height: 150,
+        options: options1
+      }), _react["default"].createElement(_reactChartjs.Bar, {
+        data: data2,
+        height: 150,
+        options: options2
       }), _react["default"].createElement("div", {
         style: {
           fontSize: 12,
