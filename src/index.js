@@ -96,23 +96,30 @@ export class NumberOfEmployees extends React.Component {
             fontSize: 12,
             fontColor,
           },
+          gridLines: {
+            color: gridColor
+          },
           barPercentage: 0.4
         }],
         yAxes: [{
-                type: 'linear',
-                display: true,
-                position: 'left',
-                id: '1',
-                labels: {
-                  show: true
-                },
-                ticks: {
-                  fontSize: 12,
-                    callback: function(label, index, labels) {
-                      return Math.floor(label);
-                    }
-                },
-              }]
+          type: 'linear',
+          display: true,
+          position: 'left',
+          id: '1',
+          labels: {
+            show: true
+          },
+          gridLines: {
+            color: gridColor
+          },
+          ticks: {
+            fontSize: 12,
+            fontColor,
+            callback: function(label, index, labels) {
+              return Math.floor(label);
+            }
+          },
+        }]
       },
     };
     const options2 = {
@@ -145,7 +152,7 @@ export class NumberOfEmployees extends React.Component {
           },
           ticks: {
             fontSize: 12,
-            // min: 0,
+            fontColor,
             callback: function(label, index, labels) {
               return Math.floor(label);
             }

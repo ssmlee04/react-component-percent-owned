@@ -163,6 +163,9 @@ function (_React$Component) {
               fontSize: 12,
               fontColor: fontColor
             },
+            gridLines: {
+              color: gridColor
+            },
             barPercentage: 0.4
           }],
           yAxes: [{
@@ -173,8 +176,12 @@ function (_React$Component) {
             labels: {
               show: true
             },
+            gridLines: {
+              color: gridColor
+            },
             ticks: {
               fontSize: 12,
+              fontColor: fontColor,
               callback: function callback(label, index, labels) {
                 return Math.floor(label);
               }
@@ -212,7 +219,7 @@ function (_React$Component) {
             },
             ticks: {
               fontSize: 12,
-              // min: 0,
+              fontColor: fontColor,
               callback: function callback(label, index, labels) {
                 return Math.floor(label);
               }
