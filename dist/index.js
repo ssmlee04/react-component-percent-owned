@@ -110,6 +110,7 @@ function (_React$Component) {
       var fontColor = theme === 'light' ? '#222222' : '#dddddd';
       var dataColor = theme === 'light' ? 'rgba(255, 165, 0, 0.5)' : 'rgba(255, 165, 0, 0.5)';
       var dataColor2 = theme === 'light' ? 'rgba(46, 134, 193, 0.5)' : 'rgba(46, 134, 193, 0.5)';
+      var gridColor = theme === 'light' ? 'rgba(80, 80, 80, 0.1)' : 'rgba(255, 255, 255, 0.2)';
       var data1 = {
         // labels: percent_institutions_ts.map(d => dayjs.utc(d.ts).format('YYYYMM')),
         labels: percent_institutions_ts.map(function (d) {
@@ -195,6 +196,9 @@ function (_React$Component) {
               fontSize: 12,
               fontColor: fontColor
             },
+            gridLines: {
+              color: gridColor
+            },
             barPercentage: 0.4
           }],
           yAxes: [{
@@ -202,6 +206,9 @@ function (_React$Component) {
             display: true,
             labels: {
               show: true
+            },
+            gridLines: {
+              color: gridColor
             },
             ticks: {
               fontSize: 12,

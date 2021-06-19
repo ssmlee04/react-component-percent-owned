@@ -46,6 +46,7 @@ export class NumberOfEmployees extends React.Component {
     const fontColor = theme === 'light' ? '#222222' : '#dddddd';
     const dataColor = theme === 'light' ? 'rgba(255, 165, 0, 0.5)' : 'rgba(255, 165, 0, 0.5)';
     const dataColor2 = theme === 'light' ? 'rgba(46, 134, 193, 0.5)' : 'rgba(46, 134, 193, 0.5)';
+    const gridColor = theme === 'light' ? 'rgba(80, 80, 80, 0.1)' : 'rgba(255, 255, 255, 0.2)';
 
     const data1 = {
       // labels: percent_institutions_ts.map(d => dayjs.utc(d.ts).format('YYYYMM')),
@@ -128,22 +129,28 @@ export class NumberOfEmployees extends React.Component {
             fontSize: 12,
             fontColor,
           },
+          gridLines: {
+            color: gridColor
+          },
           barPercentage: 0.4
         }],
         yAxes: [{
-                type: 'linear',
-                display: true,
-                labels: {
-                  show: true
-                },
-                ticks: {
-                  fontSize: 12,
-                  // min: 0,
-                  callback: function(label, index, labels) {
-                    return Math.floor(label);
-                  }
-                },
-              }]
+          type: 'linear',
+          display: true,
+          labels: {
+            show: true
+          },
+          gridLines: {
+            color: gridColor
+          },
+          ticks: {
+            fontSize: 12,
+            // min: 0,
+            callback: function(label, index, labels) {
+              return Math.floor(label);
+            }
+          },
+        }]
       },
     };
 
