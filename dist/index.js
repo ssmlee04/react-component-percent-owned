@@ -117,15 +117,16 @@ function (_React$Component) {
           return (0, _dayjs["default"])(d.ts).format('YYYYMM');
         }),
         datasets: [{
+          borderCapStyle: 'butt',
+          pointBorderWidth: 1,
           type: 'line',
           fill: true,
-          pointBackgroundColor: 'white',
           backgroundColor: dataColor,
-          borderColor: 'rgba(255, 165, 0, 1)',
-          lineTension: 0.5,
-          borderWidth: 1.5,
+          borderColor: '#DAA520',
+          lineTension: 0.3,
+          borderWidth: 1,
           pointRadius: 3,
-          pointHoverRadius: 5,
+          pointHoverRadius: 2,
           data: percent_institutions,
           label: 'Percent of Institution Owned'
         }]
@@ -136,15 +137,16 @@ function (_React$Component) {
           return (0, _dayjs["default"])(d.ts).format('YYYYMM');
         }),
         datasets: [{
+          borderCapStyle: 'butt',
+          pointBorderWidth: 1,
           type: 'line',
           fill: true,
-          pointBackgroundColor: 'white',
           backgroundColor: dataColor2,
-          borderColor: 'rgba(46, 134, 193, 1)',
-          lineTension: 0.5,
-          borderWidth: 1.5,
+          borderColor: '#4682B4',
+          lineTension: 0.3,
+          borderWidth: 1,
           pointRadius: 3,
-          pointHoverRadius: 5,
+          pointHoverRadius: 2,
           data: percent_insider,
           label: 'Percent of Insider Owned'
         }]
