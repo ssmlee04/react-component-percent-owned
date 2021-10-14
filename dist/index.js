@@ -118,7 +118,7 @@ function (_React$Component) {
       var fontColor = theme === 'light' ? '#444444' : '#dddddd';
       var dataColor = theme === 'light' ? 'rgba(44, 180, 33, 0.3)' : 'rgba(44, 180, 33, 0.5)';
       var dataColor2 = theme === 'light' ? 'rgba(46, 134, 193, 0.3)' : 'rgba(46, 134, 193, 0.5)';
-      var gridColor = theme === 'light' ? 'rgba(80, 80, 80, 0.2)' : 'rgba(255, 255, 255, 0.2)';
+      var gridColor = theme === 'light' ? 'rgba(80, 80, 80, 0.1)' : 'rgba(255, 255, 255, 0.2)';
       var data1 = {
         // labels: percent_institutions_ts.map(d => dayjs.utc(d.ts).format('YYYYMM')),
         labels: percent_institutions_ts.map(function (d) {
@@ -259,10 +259,10 @@ function (_React$Component) {
           paddingTop: 2
         }
       }, "Crafted by ", _react["default"].createElement("a", {
-        href: "https://twitter.com/earningsfly",
+        href: "https://twitter.com/tradeideashq",
         target: "_blank",
         className: "theme-darkred-".concat(theme)
-      }, "@earningsfly"), " with ", _react["default"].createElement("span", {
+      }, "@tradeideashq"), " with ", _react["default"].createElement("span", {
         style: {
           fontSize: 16,
           color: 'red'

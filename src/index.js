@@ -46,7 +46,7 @@ export class NumberOfEmployees extends React.Component {
     const fontColor = theme === 'light' ? '#444444' : '#dddddd';
     const dataColor = theme === 'light' ? 'rgba(44, 180, 33, 0.3)' : 'rgba(44, 180, 33, 0.5)';
     const dataColor2 = theme === 'light' ? 'rgba(46, 134, 193, 0.3)' : 'rgba(46, 134, 193, 0.5)';
-    const gridColor = theme === 'light' ? 'rgba(80, 80, 80, 0.2)' : 'rgba(255, 255, 255, 0.2)';
+    const gridColor = theme === 'light' ? 'rgba(80, 80, 80, 0.1)' : 'rgba(255, 255, 255, 0.2)';
 
     const data1 = {
       // labels: percent_institutions_ts.map(d => dayjs.utc(d.ts).format('YYYYMM')),
@@ -163,7 +163,7 @@ export class NumberOfEmployees extends React.Component {
         <div className={`theme-darkred-${theme}`} style={{ fontWeight: 'bold' }}>{profile.ticker} - {profile.name}&nbsp;<span className={`theme-green-${theme}`}>Ownership Analysis</span></div>
         <Bar data={data1} height={150} options={options1} />
         <Bar data={data2} height={150} options={options2} />
-        <div style={{ fontSize: 12, padding: 5, paddingTop: 2 }}>Crafted by <a href='https://twitter.com/earningsfly' target='_blank' className={`theme-darkred-${theme}`}>@earningsfly</a> with <span style={{ fontSize: 16, color: 'red' }}>💡</span></div>
+        <div style={{ fontSize: 12, padding: 5, paddingTop: 2 }}>Crafted by <a href='https://twitter.com/tradeideashq' target='_blank' className={`theme-darkred-${theme}`}>@tradeideashq</a> with <span style={{ fontSize: 16, color: 'red' }}>💡</span></div>
       </div>
     );
   }
